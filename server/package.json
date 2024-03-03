@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "esbuild index.js --platform=node --bundle  --minify --outfile=out.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "esbuild": "^0.20.1",
     "express": "^4.17.1",
     "nodemon": "^3.1.0",
     "socket.io": "^4.7.4"
