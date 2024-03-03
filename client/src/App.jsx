@@ -3,10 +3,12 @@ import { Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Join />} />
-      <Route path="/chat" element={<Chat />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Join />} />
+        <Route path="/chat" element={<Chat />} />
+      </Routes>
+    </>
   );
 }
 
