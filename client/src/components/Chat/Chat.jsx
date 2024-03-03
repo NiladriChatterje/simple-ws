@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import queryString from 'query-string';
+import { useSearchParams } from "react-router-dom";
 import io from "socket.io-client";
 
 import { TextContainer, Messages, InfoBar, Input } from '..';
@@ -9,27 +9,28 @@ const ENDPOINT = 'https://localhost:5000/';
 
 let socket;
 
-const Chat = ({ location }) => {
-  const [name, setName] = useState('');
-  const [room, setRoom] = useState('');
+const Chat = () => {
+  const [Name, setName] = useState('');
+  const [Room, setRoom] = useState('');
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [params, setParams] = useSearchParams();
 
   useEffect(() => {
-    const { name, room } = queryString.parse(location.search);
+
 
     socket = io(ENDPOINT);
 
-    setRoom(room);
-    setName(name)
+    setRoom(params.get('room'));
+    setName(params.get('name'))
 
-    socket.emit('join', { name, room }, (error) => {
-      if (error) {
+    socket.emit('join', { Name, Room }, (error) => {
+      if (error)
         alert(error);
-      }
+
     });
-  }, [ENDPOINT, location.search]);
+  }, [ENDPOINT, params.get('name'), params.get('room')]);
 
   useEffect(() => {
     socket.on('message', message => {
@@ -52,8 +53,8 @@ const Chat = ({ location }) => {
   return (
     <div className="outerContainer">
       <div className="container">
-        <InfoBar room={room} />
-        <Messages messages={messages} name={name} />
+        <InfoBar room={Room} />
+        <Messages messages={messages} name={Name} />
         <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
       <TextContainer users={users} />

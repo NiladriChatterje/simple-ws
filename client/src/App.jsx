@@ -6,7 +6,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Join />} />
-      <Route path="/chat" component={<Chat />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   );
 }
