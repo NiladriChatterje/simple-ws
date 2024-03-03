@@ -7,6 +7,7 @@ import ReactEmoji from 'react-emoji';
 const Message = ({ message: { text, user }, name }) => {
   let isSentByCurrentUser = false;
   const checkPresent = text.includes('has left') ? true : false;
+  const welcomeMsg = text.includes('welcome to room') ? true : false;
   const trimmedName = name.trim().toLowerCase();
 
   if (user === trimmedName) {
@@ -24,16 +25,16 @@ const Message = ({ message: { text, user }, name }) => {
         </div>
       )
       : (
-        <div className={`messageContainer ${checkPresent ? 'justifyCenter' : 'justifyStart'}`}>
+        <div className={`messageContainer ${checkPresent || welcomeMsg ? 'justifyCenter' : 'justifyStart'}`}>
           {checkPresent ?
-            <div className="messageBox backgroundLeft">
+            <div className={`messageBox backgroundLeft`}>
               <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
             </div>
             :
-            <div className="messageBox backgroundLight">
+            <div className={`messageBox ${welcomeMsg ? "welcomeStyle" : "backgroundLight"}`}>
               <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
             </div>}
-          <p className="sentText pl-10 ">{!checkPresent && user}</p>
+          <p className="sentText pl-10 ">{(!checkPresent && !welcomeMsg) && user}</p>
         </div>
       )
   );
