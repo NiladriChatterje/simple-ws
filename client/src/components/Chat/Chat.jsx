@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 
-import { TextContainer, Messages, InfoBar, Input } from '..';
+import { Messages, InfoBar, Input } from '..';
 import './Chat.css';
 
-const ENDPOINT = 'https://localhost:5000/';
+const ENDPOINT = 'localhost:5000';
 
 let socket;
 
@@ -18,14 +18,12 @@ const Chat = () => {
   const [params, setParams] = useSearchParams();
 
   useEffect(() => {
-
-
-    socket = io(ENDPOINT);
+    socket = io(ENDPOINT, { transports: ['websocket', 'polling'] });
 
     setRoom(params.get('room'));
     setName(params.get('name'))
 
-    socket.emit('join', { Name, Room }, (error) => {
+    socket.emit('join', { name: params.get('name'), room: params.get('room') }, (error) => {
       if (error)
         alert(error);
 
@@ -57,7 +55,6 @@ const Chat = () => {
         <Messages messages={messages} name={Name} />
         <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
-      <TextContainer users={users} />
     </div>
   );
 }

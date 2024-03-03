@@ -6,10 +6,10 @@ import ReactEmoji from 'react-emoji';
 
 const Message = ({ message: { text, user }, name }) => {
   let isSentByCurrentUser = false;
-
+  const checkPresent = text.includes('has left') ? true : false;
   const trimmedName = name.trim().toLowerCase();
 
-  if(user === trimmedName) {
+  if (user === trimmedName) {
     isSentByCurrentUser = true;
   }
 
@@ -22,15 +22,20 @@ const Message = ({ message: { text, user }, name }) => {
             <p className="messageText colorWhite">{ReactEmoji.emojify(text)}</p>
           </div>
         </div>
-        )
-        : (
-          <div className="messageContainer justifyStart">
-            <div className="messageBox backgroundLight">
+      )
+      : (
+        <div className={`messageContainer ${checkPresent ? 'justifyCenter' : 'justifyStart'}`}>
+          {checkPresent ?
+            <div className="messageBox backgroundLeft">
               <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
             </div>
-            <p className="sentText pl-10 ">{user}</p>
-          </div>
-        )
+            :
+            <div className="messageBox backgroundLight">
+              <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
+            </div>}
+          <p className="sentText pl-10 ">{!checkPresent && user}</p>
+        </div>
+      )
   );
 }
 

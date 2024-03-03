@@ -1,5 +1,4 @@
 import { Chat, Join } from './components';
-
 import { Routes, Route } from "react-router-dom";
 
 const App = () => {

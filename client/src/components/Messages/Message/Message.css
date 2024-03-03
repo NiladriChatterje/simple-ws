@@ -50,8 +50,17 @@
   justify-content: flex-end;
 }
 
+.backgroundLeft {
+  background-color: rgb(255, 142, 142);
+}
+
 .colorWhite {
   color: white;
+}
+
+.justifyCenter {
+  justify-content: center;
+  padding: 5px 10px;
 }
 
 .colorDark {
@@ -59,7 +68,7 @@
 }
 
 .backgroundBlue {
-  background: #2979FF;
+  background: #252525;
 }
 
 .backgroundLight {

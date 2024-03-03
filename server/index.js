@@ -6,15 +6,20 @@ const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 const router = require('./router');
 
 const app = express();
-const server = http.createServer(app);
+app.use(cors());
+const server = http.createServer(app, {
+  cors: {
+    origin: '*',
+    methods: ["GET", "POST"],
+  }
+});
 const io = new Server(server);
 
-app.use(cors());
 app.use(router);
 
 io.on('connection', (socket) => {
-
   socket.on('join', ({ name, room }, callback) => {
+
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if (error) return callback(error);
@@ -44,7 +49,7 @@ io.on('connection', (socket) => {
       io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
       io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
     }
-  })
+  });
 });
 
 server.listen(5000, () => console.log(`Server has started.`));
